@@ -1,50 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
 import React, { useState } from 'react';
-import { render } from 'react-dom';
-import { ConfigProvider, DatePicker, message } from 'antd';
+import { Button, ConfigProvider, Layout, Menu} from 'antd';
 // 由于 antd 组件的默认文案是英文，所以需要修改为中文
-import zhCN from 'antd/es/locale/zh_CN';
+import zhCN from 'antd/lib/locale/zh_CN';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import 'antd/dist/antd.css';
-import './index.css';
+import './App.css';
+import AuthMange from './js/authManage'
+import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+
+const { Header, Sider, Content, Footer } = Layout;
 
 moment.locale('zh-cn');
 
-function App() {
-  const [date, setDate] = useState(null);
-  const handleChange = value => {
-    message.info(`您选择的日期是: ${value ? value.format('YYYY年MM月DD日') : '未选择'}`);
-    setDate(value);
-  };
+const App = () => {
   
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ConfigProvider locale={zhCN}>
+      <Layout>
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={broken => {
+            console.log(broken);
+          }}
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type);
+          }}
+          style={{height: window.innerHeight}}
         >
-          Learn React
-        </a>
-      </header>
-      <ConfigProvider locale={zhCN}>
-      <div style={{ width: 400, margin: '100px auto' }}>
-        <DatePicker onChange={handleChange} />
-        <div style={{ marginTop: 16 }}>
-          当前日期：{date ? date.format('YYYY年MM月DD日') : '未选择'}
-        </div>
-      </div>
+          <div className="logo" />
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
+            <Menu.Item key="1" icon={<UserOutlined />}>
+              nav 1
+            </Menu.Item>
+            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+              nav 2
+            </Menu.Item>
+            <Menu.Item key="3" icon={<UploadOutlined />}>
+              nav 3
+            </Menu.Item>
+            <Menu.Item key="4" icon={<UserOutlined />}>
+              nav 4
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout>
+          <Header className="site-layout-sub-header-background" style={{ }} >
+            Security System
+          </Header>
+          <Content style={{ margin: '24px 16px 0' }}>
+            <div className="site-layout-background" style={{ padding: 24, minHeight: 720 }}>
+              <AuthMange />
+            </div>
+          </Content>
+        </Layout>
+      </Layout>
     </ConfigProvider>
-    </div>
   );
-}
+};
 
 export default App;
